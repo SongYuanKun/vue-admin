@@ -59,7 +59,7 @@
 				this.loading = true;
 				//NProgress.start();
 				getUserList(para).then((res) => {
-					this.users = res.data.users;
+					this.users = res.data.data;
 					this.loading = false;
 					//NProgress.done();
 				});
