@@ -29,12 +29,12 @@
 			</el-table-column>
 			<el-table-column prop="birth" label="生日" width="120" sortable="sortable">
 			</el-table-column>
-			<el-table-column prop="addr" label="地址" min-width="180" sortable="sortable">
+			<el-table-column prop="address" label="地址" min-width="180" sortable="sortable">
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template scope="scope">
 					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+<!--					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>-->
 				</template>
 			</el-table-column>
 		</el-table>
@@ -49,8 +49,8 @@
 		<!--编辑界面-->
 		<el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
 			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-				<el-form-item label="姓名" prop="name">
-					<el-input v-model="editForm.name" auto-complete="off"></el-input>
+				<el-form-item label="姓名" prop="userName">
+					<el-input v-model="editForm.userName" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="性别">
 					<el-radio-group v-model="editForm.sex">
@@ -65,7 +65,7 @@
 					<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="地址">
-					<el-input type="textarea" v-model="editForm.addr"></el-input>
+					<el-input type="textarea" v-model="editForm.address"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -77,8 +77,8 @@
 		<!--新增界面-->
 		<el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
 			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
-				<el-form-item label="姓名" prop="name">
-					<el-input v-model="addForm.name" auto-complete="off"></el-input>
+				<el-form-item label="姓名" prop="userName">
+					<el-input v-model="addForm.userName" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="性别">
 					<el-radio-group v-model="addForm.sex">
@@ -93,7 +93,7 @@
 					<el-date-picker type="date" placeholder="选择日期" v-model="addForm.birth"></el-date-picker>
 				</el-form-item>
 				<el-form-item label="地址">
-					<el-input type="textarea" v-model="addForm.addr"></el-input>
+					<el-input type="textarea" v-model="addForm.address"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -113,7 +113,7 @@
 		data() {
 			return {
 				filters: {
-					name: ''
+					userName: ''
 				},
 				users: [],
 				total: 0,
@@ -124,34 +124,34 @@
 				editFormVisible: false,//编辑界面是否显示
 				editLoading: false,
 				editFormRules: {
-					name: [
+					userName: [
 						{ required: true, message: '请输入姓名', trigger: 'blur' }
 					]
 				},
 				//编辑界面数据
 				editForm: {
 					id: 0,
-					name: '',
+					userName: '',
 					sex: -1,
 					age: 0,
 					birth: '',
-					addr: ''
+					address: ''
 				},
 
 				addFormVisible: false,//新增界面是否显示
 				addLoading: false,
 				addFormRules: {
-					name: [
+					userName: [
 						{ required: true, message: '请输入姓名', trigger: 'blur' }
 					]
 				},
 				//新增界面数据
 				addForm: {
-					name: '',
+					userName: '',
 					sex: -1,
 					age: 0,
 					birth: '',
-					addr: ''
+					address: ''
 				}
 
 			}
@@ -169,7 +169,7 @@
 			getUsers() {
 				let para = {
 					page: this.page,
-					name: this.filters.name
+					userName: this.filters.userName
 				};
 				let loginParams=new FormData();
 				loginParams.append('page',this.page);
@@ -213,11 +213,11 @@
 			handleAdd: function () {
 				this.addFormVisible = true;
 				this.addForm = {
-					name: '',
+					userName: '',
 					sex: -1,
 					age: 0,
 					birth: '',
-					addr: ''
+					address: ''
 				};
 			},
 			//编辑
