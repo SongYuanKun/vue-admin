@@ -53,13 +53,13 @@
 			},
 			//获取用户列表
 			getUser: function () {
-				let para = {
-					name: this.filters.name
-				};
+				let loginParams = new FormData();
+				loginParams.append('pageNumber', this.ruleForm2.account);
+				loginParams.append('pageSize', this.ruleForm2.checkPass);
 				this.loading = true;
 				//NProgress.start();
-				getUserList(para).then((res) => {
-					this.users = res.data.data;
+				getUserList(loginParams).then((res) => {
+					this.users = res.data.content;
 					this.loading = false;
 					//NProgress.done();
 				});

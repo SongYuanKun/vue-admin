@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!--工具条-->
-		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+		<el-col :span="24" class="toolbar" style="padding-bottom: 0;">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
 					<el-input v-model="filters.name" placeholder="姓名"></el-input>
@@ -21,15 +21,15 @@
 			</el-table-column>
 			<el-table-column type="index" width="60">
 			</el-table-column>
-			<el-table-column prop="name" label="姓名" width="120" sortable>
+			<el-table-column prop="userName" label="姓名" width="120" sortable="sortable">
 			</el-table-column>
-			<el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
+			<el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable="sortable">
 			</el-table-column>
-			<el-table-column prop="age" label="年龄" width="100" sortable>
+			<el-table-column prop="phone" label="电话" width="100" sortable="sortable">
 			</el-table-column>
-			<el-table-column prop="birth" label="生日" width="120" sortable>
+			<el-table-column prop="birth" label="生日" width="120" sortable="sortable">
 			</el-table-column>
-			<el-table-column prop="addr" label="地址" min-width="180" sortable>
+			<el-table-column prop="addr" label="地址" min-width="180" sortable="sortable">
 			</el-table-column>
 			<el-table-column label="操作" width="150">
 				<template scope="scope">
@@ -159,7 +159,7 @@
 		methods: {
 			//性别显示转换
 			formatSex: function (row, column) {
-				return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
+				return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知';
 			},
 			handleCurrentChange(val) {
 				this.page = val;
@@ -171,11 +171,14 @@
 					page: this.page,
 					name: this.filters.name
 				};
+				let loginParams=new FormData();
+				loginParams.append('page',this.page);
+				loginParams.append('pageSize', 10);
 				this.listLoading = true;
 				//NProgress.start();
-				getUserListPage(para).then((res) => {
+				getUserListPage(loginParams).then((res) => {
 					this.total = res.data.total;
-					this.users = res.data.users;
+					this.users = res.data.content;
 					this.listLoading = false;
 					//NProgress.done();
 				});
