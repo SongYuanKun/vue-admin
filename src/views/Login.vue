@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {requestLogin} from '../api/api';
+    import {getUserInfo, requestLogin} from '../api/api';
     //import NProgress from 'nprogress'
     export default {
         data() {
@@ -46,16 +46,15 @@
                 this.$refs.ruleForm2.resetFields();
             },
             handleSubmit2() {
-              this.$refs.ruleForm2.validate((valid) => {
+                this.$refs.ruleForm2.validate((valid) => {
                     if (valid) {
                         //_this.$router.replace('/table');
                         this.logining = true;
                         //NProgress.start();
                         let loginParams = new FormData();
-                      loginParams.append('phone', this.ruleForm2.account);
-                      loginParams.append('password', this.ruleForm2.checkPass);
+                        loginParams.append('phone', this.ruleForm2.account);
+                        loginParams.append('password', this.ruleForm2.checkPass);
                         requestLogin(loginParams).then(result => {
-                            console.info(result);
                             this.logining = false;
                             //NProgress.done();
                             let {message, code, data} = result;
@@ -66,6 +65,9 @@
                                 });
                             } else {
                                 sessionStorage.setItem('token', data);
+                                getUserInfo().then((res) => {
+                                    sessionStorage.setItem("user", JSON.stringify(res.data));
+                                });
                                 this.$router.push({path: '/table'});
                             }
                         });

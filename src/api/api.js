@@ -12,6 +12,10 @@ export const getUserList = params => {
     return axios.post(`${base}/user/page`, {params: params}, {headers: headers});
 };
 
+export const getUserInfo = () => {
+    return axios.get(`${base}/user`, {headers: headers});
+};
+
 export const getUserListPage = params => {
     return axios.post(`${base}/user/page`, {params: params}, {headers: headers});
 };
@@ -25,9 +29,9 @@ export const batchRemoveUser = params => {
 };
 
 export const editUser = params => {
-    return axios.get(`${base}/user/edit`, {params: params});
+    return axios.post(`${base}/user/saveOrUpdate`,  params, {headers: headers});
 };
 
 export const addUser = params => {
-    return axios.get(`${base}/user/add`, {params: params});
+    return axios.get(`${base}/user/saveOrUpdate`, {params: params});
 };
