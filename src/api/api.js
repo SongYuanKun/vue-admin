@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://localhost:8082';
+let base = 'http://localhost:8082/admin';
 let headers = {
     'Authorization': sessionStorage.getItem('token')
 };

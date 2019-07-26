@@ -16,7 +16,7 @@
         </el-col>
 
         <!--列表-->
-        <el-table :data="users" highlight-current-row v-loading="listLoading" @selection-change="selsChange"
+        <el-table :data="users" highlight-current-row v-loading="listLoading" @sort-change="sortChange" @selection-change="selsChange"
                   style="width: 100%;">
             <el-table-column type="index" width="60">
             </el-table-column>
@@ -24,7 +24,7 @@
             </el-table-column>
             <el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable="sortable">
             </el-table-column>
-            <el-table-column prop="phone" label="电话" width="100" sortable="sortable">
+            <el-table-column prop="phone" label="电话" width="150" sortable="sortable">
             </el-table-column>
             <el-table-column prop="birthday" label="生日" width="120" sortable="sortable">
             </el-table-column>
@@ -248,6 +248,8 @@
             },
             selsChange: function (sels) {
                 this.sels = sels;
+            }, sortChange: function (sort) {
+                console.info(sort);
             },
             //批量删除
             batchRemove: function () {
