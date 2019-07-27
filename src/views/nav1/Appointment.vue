@@ -8,7 +8,8 @@
                 </el-form-item>
                 <el-form-item label="活动时间">
                     <el-col>
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.day"
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.day" format="yyyy-MM-dd"
+                                        value-format="yyyy-MM-dd"
                                         style="width: 100%;"></el-date-picker>
                     </el-col>
                 </el-form-item>
@@ -20,10 +21,10 @@
 
         <!--列表-->
         <template>
-            <el-table :data="users" highlight-current-row v-loading="loading" style="width: 100%;">
+            <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
                 <el-table-column type="index" width="60">
                 </el-table-column>
-                <el-table-column prop="name" label="姓名" width="200" sortable="sortable">
+                <el-table-column prop="userName" label="姓名" width="200" sortable="sortable">
                 </el-table-column>
                 <el-table-column prop="phone" label="电话" width="200" sortable="sortable">
                 </el-table-column>
@@ -61,7 +62,7 @@
                     day: ''
                 },
                 loading: false,
-                users: []
+                list: []
             }
         },
         methods: {
@@ -85,7 +86,7 @@
                 this.loading = true;
                 //NProgress.start();
                 getAppointmentList(this.filters).then((res) => {
-                    this.users = res.data.content;
+                    this.list = res.data.content;
                     this.loading = false;
                     //NProgress.done();
                 });
