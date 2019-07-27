@@ -20,18 +20,15 @@ export const getUserListPage = params => {
     return axios.post(`${base}/user/page`, {params: params}, {headers: headers});
 };
 
-export const removeUser = params => {
-    return axios.get(`${base}/user/remove`, {params: params});
-};
-
-export const batchRemoveUser = params => {
-    return axios.get(`${base}/user/batchremove`, {params: params});
-};
-
 export const editUser = params => {
-    return axios.post(`${base}/user/saveOrUpdate`,  params, {headers: headers});
+    return axios.post(`${base}/user/saveOrUpdate`, params, {headers: headers});
 };
 
 export const addUser = params => {
     return axios.get(`${base}/user/saveOrUpdate`, {params: params});
+};
+
+
+export const getAppointmentList = params => {
+    return axios.get(`${base}/room_appointment/queryAppointmentList`, {params: params, headers: headers});
 };
