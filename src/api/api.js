@@ -30,7 +30,7 @@ export const addUser = params => {
 
 
 export const getAppointmentList = params => {
-    return axios.get(`${base}/room_appointment/queryAppointmentList`, {params: params, headers: headers});
+    return axios.post(`${base}/room_appointment/queryAppointmentList`, params, {headers: headers});
 };
 export const changeStatus = params => {
     return axios.get(`${base}/room_appointment/changeStatus`, {params: params, headers: headers});

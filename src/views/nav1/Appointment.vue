@@ -3,8 +3,14 @@
         <!--工具条-->
         <el-col :span="24" class="toolbar" style="padding-bottom: 0;">
             <el-form :inline="true" :model="filters">
-                <el-form-item>
-                    <el-input v-model="filters.name" placeholder="姓名"></el-input>
+                <el-form-item label="预约人姓名">
+                    <el-input v-model="filters.userName" placeholder="预约人姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="活动时间">
+                    <el-col>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.day"
+                                        style="width: 100%;"></el-date-picker>
+                    </el-col>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" v-on:click="getAppoint">查询</el-button>
@@ -29,7 +35,8 @@
                 </el-table-column>
                 <el-table-column label="操作" width="150">
                     <template slot-scope="scope">
-                        <el-button size="small"  v-if="scope.row.status!==1&&scope.row.status!==2" @click="changeStatus(scope.row.id,1)">签到
+                        <el-button size="small" v-if="scope.row.status!==1&&scope.row.status!==2"
+                                   @click="changeStatus(scope.row.id,1)">签到
                         </el-button>
                         <el-button size="small" v-if="scope.row.status!==1&&scope.row.status!==2"
                                    @click="changeStatus(scope.row.id,2)">取消
@@ -48,7 +55,10 @@
         data() {
             return {
                 filters: {
-                    name: ''
+                    pageNumber: 1,
+                    pageSize: 10,
+                    userName: '',
+                    day: ''
                 },
                 loading: false,
                 users: []
@@ -72,10 +82,9 @@
             },
 
             getAppoint: function () {
-                let queryParams = new FormData();
                 this.loading = true;
                 //NProgress.start();
-                getAppointmentList(queryParams).then((res) => {
+                getAppointmentList(this.filters).then((res) => {
                     this.users = res.data.content;
                     this.loading = false;
                     //NProgress.done();
