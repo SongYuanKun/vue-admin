@@ -16,7 +16,8 @@
         </el-col>
 
         <!--列表-->
-        <el-table :data="users" highlight-current-row v-loading="listLoading" @sort-change="sortChange" @selection-change="selsChange"
+        <el-table :data="users" highlight-current-row v-loading="listLoading" @sort-change="sortChange"
+                  @selection-change="selsChange"
                   style="width: 100%;">
             <el-table-column type="index" width="60">
             </el-table-column>
@@ -46,7 +47,7 @@
         </el-col>
 
         <!--编辑界面-->
-        <el-dialog title="编辑" v-model="editFormVisible" :close-on-click-modal="false">
+        <el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false" :append-to-body="true">
             <el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
                 <el-form-item label="姓名" prop="userName">
                     <el-input v-model="editForm.userName" auto-complete="off"></el-input>
@@ -74,7 +75,7 @@
         </el-dialog>
 
         <!--新增界面-->
-        <el-dialog title="新增" v-model="addFormVisible" :close-on-click-modal="false">
+        <el-dialog title="新增" :visible.sync="addFormVisible" :append-to-body="true">
             <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
                 <el-form-item label="姓名" prop="userName">
                     <el-input v-model="addForm.userName" auto-complete="off"></el-input>
@@ -106,7 +107,7 @@
 <script>
     import util from '../../common/js/util'
     //import NProgress from 'nprogress'
-    import {getUserListPage, removeUser, batchRemoveUser, editUser, addUser} from '../../api/api';
+    import {getUserListPage, editUser, addUser} from '../../api/api';
 
     export default {
         data() {
@@ -118,7 +119,6 @@
                 total: 0,
                 page: 1,
                 listLoading: false,
-                sels: [],//列表选中列
 
                 editFormVisible: false,//编辑界面是否显示
                 editLoading: false,
@@ -157,7 +157,7 @@
         },
         methods: {
             //性别显示转换
-            formatSex: function (row, column) {
+            formatSex: function (row) {
                 return row.sex === 1 ? '男' : row.sex === 0 ? '女' : '未知';
             },
             handleCurrentChange(val) {
@@ -166,13 +166,9 @@
             },
             //获取用户列表
             getUsers() {
-                let para = {
-                    page: this.page,
-                    userName: this.filters.userName
-                };
                 let loginParams = new FormData();
                 loginParams.append('pageNum', this.page);
-                loginParams.append('pageSize', 10);
+                loginParams.append('pageSize', "10");
                 this.listLoading = true;
                 //NProgress.start();
                 getUserListPage(loginParams).then((res) => {
@@ -230,7 +226,7 @@
                             this.addLoading = true;
                             //NProgress.start();
                             let para = Object.assign({}, this.addForm);
-                            para.birthday = (!para.birthday || para.birthday == '') ? '' : util.formatDate.format(new Date(para.birthday), 'yyyy-MM-dd');
+                            para.birthday = (!para.birthday || para.birthday === '') ? '' : util.formatDate.format(new Date(para.birthday), 'yyyy-MM-dd');
                             addUser(para).then((res) => {
                                 this.addLoading = false;
                                 //NProgress.done();
@@ -251,28 +247,6 @@
             }, sortChange: function (sort) {
                 console.info(sort);
             },
-            //批量删除
-            batchRemove: function () {
-                var ids = this.sels.map(item => item.id).toString();
-                this.$confirm('确认删除选中记录吗？', '提示', {
-                    type: 'warning'
-                }).then(() => {
-                    this.listLoading = true;
-                    //NProgress.start();
-                    let para = {ids: ids};
-                    batchRemoveUser(para).then((res) => {
-                        this.listLoading = false;
-                        //NProgress.done();
-                        this.$message({
-                            message: '删除成功',
-                            type: 'success'
-                        });
-                        this.getUsers();
-                    });
-                }).catch(() => {
-
-                });
-            }
         },
         mounted() {
             this.getUsers();

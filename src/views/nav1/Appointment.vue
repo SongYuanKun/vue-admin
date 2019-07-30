@@ -8,7 +8,7 @@
                 </el-form-item>
                 <el-form-item label="活动时间">
                     <el-col>
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.day" format="yyyy-MM-dd"
+                        <el-date-picker  placeholder="选择日期" v-model="filters.day" format="yyyy-MM-dd"
                                         value-format="yyyy-MM-dd"
                                         style="width: 100%;"></el-date-picker>
                     </el-col>
@@ -50,6 +50,7 @@
     </section>
 </template>
 <script>
+    import moment from 'moment'
     import {getAppointmentList, changeStatus} from '../../api/api';
 
     export default {
@@ -103,7 +104,9 @@
             }
         },
         mounted() {
+            this.filters.day = new Date();
             this.getAppoint();
+
         }
     };
 

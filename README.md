@@ -40,7 +40,7 @@ You can change theme by
 2. Put theme packages in src/assets/theme/
 3. Edit src/main.js 
 ``` bash
-   import 'element-ui/lib/theme-default/index.css'
+   import 'element-ui/lib/theme-chalk/index.css'
    to
    import './assets/theme/your-theme/index.css'
 ```
