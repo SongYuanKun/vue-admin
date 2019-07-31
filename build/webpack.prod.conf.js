@@ -27,14 +27,12 @@ var webpackConfig = merge(baseWebpackConfig, {
         minimizer: [
             new UglifyJSPlugin({
                 uglifyOptions: {
+                    warnings: false,
                     output: {
                         comments: false
-                    },
-                    compress: {
-                        warnings: false
                     }
-                }
-                , sourceMap: true
+                },
+                sourceMap: true
             }),
             new OptimizeCSSPlugin({
                 cssProcessorOptions: {
