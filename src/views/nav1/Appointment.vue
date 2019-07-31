@@ -22,21 +22,21 @@
         <!--列表-->
         <template>
             <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
-                <el-table-column type="index" width="60">
+                <el-table-column type="index" min-width="10%">
                 </el-table-column>
-                <el-table-column prop="id" label="编号" width="200" sortable="sortable">
+                <el-table-column prop="id" label="编号" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="userName" label="姓名" width="200" sortable="sortable">
+                <el-table-column prop="userName" label="姓名" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="phone" label="电话" width="200" sortable="sortable">
+                <el-table-column prop="phone" label="电话" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="day" label="日期" width="200" sortable="sortable">
+                <el-table-column prop="day" label="日期" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="timePoint.value" label="时间段" width="120" sortable="sortable">
+                <el-table-column prop="timePoint.value" label="时间段" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="status" label="状态" width="100" :formatter="formatStatus" sortable="sortable">
+                <el-table-column prop="status" label="状态" :formatter="formatStatus" sortable="sortable">
                 </el-table-column>
-                <el-table-column label="操作" width="150">
+                <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button size="small" v-if="scope.row.status!==1&&scope.row.status!==2"
                                    @click="changeStatus(scope.row.id,1)">签到

@@ -4,6 +4,11 @@ let base = 'http://weixin.songyuankun.top/admin';
 let headers = {
     'Authorization': sessionStorage.getItem('token')
 };
+export const resetHeader = () => {
+    headers = {
+        'Authorization': sessionStorage.getItem('token')
+    };
+};
 export const requestLogin = params => {
     return axios.post(`${base}/loginByPassword`, params).then(res => res.data);
 };
