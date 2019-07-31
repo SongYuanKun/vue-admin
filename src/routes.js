@@ -2,9 +2,9 @@ import Login from './views/Login.vue'
 import NotFound from './views/404.vue'
 import Home from './views/Home.vue'
 import Main from './views/Main.vue'
-import Table from './views/nav1/User.vue'
+import User from './views/nav1/User.vue'
 import Form from './views/nav1/Form.vue'
-import user from './views/nav1/Appointment.vue'
+import Appointment from './views/nav1/Appointment.vue'
 import Page4 from './views/nav2/Page4.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
@@ -27,13 +27,13 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: '导航一',
+        name: '基础功能',
         iconCls: 'el-icon-message',//图标样式class
         children: [
             { path: '/main', component: Main, name: '主页', hidden: true },
-            { path: '/table', component: Table, name: 'Table' },
-            { path: '/form', component: Form, name: 'Form' },
-            { path: '/user', component: user, name: '列表' },
+            { path: '/user', component: User, name: '用户' },
+            { path: '/form', component: Form, name: 'Form', hidden: true },
+            { path: '/appointment', component: Appointment, name: '预约列表' },
         ]
     },
     {

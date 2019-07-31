@@ -68,7 +68,7 @@
                                 resetHeader();
                                 getUserInfo().then((res) => {
                                     sessionStorage.setItem("user", JSON.stringify(res.data));
-                                    this.$router.push({path: '/table'});
+                                    this.$router.push({path: '/user'});
                                 });
                             }
                         });
