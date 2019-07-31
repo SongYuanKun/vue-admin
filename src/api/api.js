@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let base = 'http://localhost:8082/admin';
+let base = 'http://weixin.songyuankun.top/admin';
 let headers = {
     'Authorization': sessionStorage.getItem('token')
 };
