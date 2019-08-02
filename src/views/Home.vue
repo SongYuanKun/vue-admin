@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner"><img
+                    <span class="el-dropdown-link userinfo-inner"><img alt="sysUserAvatar"
                             :src="this.sysUserAvatar"/> {{sysUserName}}</span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item>我的消息</el-dropdown-item>
@@ -30,6 +30,20 @@
                     <NavMenu :navMenus="$router.options.routes"></NavMenu>
                 </el-menu>
                 <!--导航菜单-折叠后-->
+                <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+                    <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+                        <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)"
+                             @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
+                        <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)"
+                            @mouseout="showMenu(index,false)">
+                            <li v-for="child in item.children" v-if="!child.hidden" :key="child.path"
+                                class="el-menu-item" style="padding-left: 40px;"
+                                :class="$route.path===child.path?'is-active':''" @click="$router.push(child.path)">
+                                {{child.name}}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </aside>
             <section class="content-container">
                 <div class="grid-content bg-purple-light">
@@ -131,8 +145,8 @@
 
     .container {
         position: absolute;
-        top: 0px;
-        bottom: 0px;
+        top: 0;
+        bottom: 0;
         width: 100%;
 
         .header {
@@ -154,7 +168,7 @@
                         width: 40px;
                         height: 40px;
                         border-radius: 20px;
-                        margin: 10px 0px 10px 10px;
+                        margin: 10px 0 10px 10px;
                         float: right;
                     }
                 }
@@ -190,7 +204,7 @@
             }
 
             .tools {
-                padding: 0px 23px;
+                padding: 0 23px;
                 width: 14px;
                 height: 60px;
                 line-height: 60px;
@@ -203,15 +217,15 @@
             // background: #324057;
             position: absolute;
             top: 60px;
-            bottom: 0px;
+            bottom: 0;
             overflow: hidden;
 
             aside {
                 flex: 0 0 230px;
                 width: 230px;
                 // position: absolute;
-                // top: 0px;
-                // bottom: 0px;
+                // top: 0;
+                // bottom: 0;
                 .el-menu {
                     height: 100%;
                 }
@@ -225,7 +239,7 @@
 
                     .submenu {
                         position: absolute;
-                        top: 0px;
+                        top: 0;
                         left: 60px;
                         z-index: 99999;
                         height: auto;
@@ -249,9 +263,9 @@
                 // background: #f1f2f7;
                 flex: 1;
                 // position: absolute;
-                // right: 0px;
-                // top: 0px;
-                // bottom: 0px;
+                // right: 0;
+                // top: 0;
+                // bottom: 0;
                 // left: 230px;
                 overflow-y: scroll;
                 padding: 20px;

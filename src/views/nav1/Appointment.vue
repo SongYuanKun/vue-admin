@@ -8,7 +8,7 @@
                 </el-form-item>
                 <el-form-item label="活动时间">
                     <el-col>
-                        <el-date-picker placeholder="选择日期" v-model="filters.day" format="yyyy-MM-dd"
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.day" format="yyyy-MM-dd"
                                         value-format="yyyy-MM-dd"
                                         style="width: 100%;"></el-date-picker>
                     </el-col>
@@ -47,17 +47,23 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!--工具条-->
+            <el-col :span="24" class="toolbar">
+                <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="10"
+                               :total="total" style="float:right;">
+                </el-pagination>
+            </el-col>
         </template>
 
     </section>
 </template>
 <script>
-    import moment from 'moment'
     import {getAppointmentList, changeStatus} from '../../api/api';
 
     export default {
         data() {
             return {
+                total: 0,
                 filters: {
                     pageNumber: 1,
                     pageSize: 10,
@@ -90,10 +96,16 @@
                 //NProgress.start();
                 getAppointmentList(this.filters).then((res) => {
                     this.list = res.data.content;
+                    this.total = res.data.totalElements;
                     this.loading = false;
                     //NProgress.done();
                 });
             },
+            handleCurrentChange(val) {
+                this.filters.pageNumber = val;
+                this.getAppoint();
+            },
+
             changeStatus: function (id, status) {
                 this.loading = true;
                 console.info(id + "==" + status);
@@ -106,7 +118,6 @@
             }
         },
         mounted() {
-            this.filters.day = new Date();
             this.getAppoint();
 
         }

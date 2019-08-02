@@ -18,8 +18,8 @@ export default {
 
 <style lang="scss">
 body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	/*background: url(assets/bg1.jpg) center !important;
 		background-size: cover;*/
 	// background: #1F2D3D;
@@ -30,8 +30,8 @@ body {
 
 #app {
 	position: absolute;
-	top: 0px;
-	bottom: 0px;
+	top: 0;
+	bottom: 0;
 	width: 100%;
 }
 
@@ -49,7 +49,7 @@ body {
 	background: #f2f2f2;
 	padding: 10px;
 	//border:1px solid #dfe6ec;
-	margin: 10px 0px;
+	margin: 10px 0;
 	.el-form-item {
 		margin-bottom: 10px;
 	}
