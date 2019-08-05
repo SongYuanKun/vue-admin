@@ -32,7 +32,7 @@
                 </el-table-column>
                 <el-table-column prop="day" label="日期" sortable="sortable">
                 </el-table-column>
-                <el-table-column prop="timePoint.value" label="时间段" sortable="sortable">
+                <el-table-column prop="timeValue" label="时间段" sortable="sortable">
                 </el-table-column>
                 <el-table-column prop="status" label="状态" :formatter="formatStatus" sortable="sortable">
                 </el-table-column>
