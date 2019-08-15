@@ -30,6 +30,7 @@
 
 <script>
     import {getBase, getUserInfo, requestLogin, resetHeader} from '../api/api';
+    import {getUUID} from "../util/myUtil";
 
     export default {
         data() {
@@ -96,12 +97,9 @@
                 });
             },
             getCaptcha: function () {
-                this.captchaPath = getBase() + "/captcha.jpg?uuid=" + this.getUUID()
-            },
-            getUUID() {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-                    return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
-                })
+                let uuid=getUUID();
+                this.ruleForm2.uuid=uuid;
+                this.captchaPath = getBase() + "/captcha.jpg?uuid=" + uuid
             }
         }
     }

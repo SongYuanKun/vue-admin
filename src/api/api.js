@@ -40,3 +40,8 @@ export const getAppointmentList = params => {
 export const changeStatus = params => {
     return axios.get(`${base}/room_appointment/changeStatus`, {params: params, headers: headers});
 };
+
+
+export const getArticleList = params => {
+    return axios.post(`${base}/article/page`, params, {headers: headers});
+};

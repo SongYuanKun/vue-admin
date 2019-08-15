@@ -6,9 +6,12 @@ import User from './views/nav1/User.vue'
 import Form from './views/nav1/Form.vue'
 import Appointment from './views/nav1/Appointment.vue'
 import Page4 from './views/nav2/Page4.vue'
+import Article from './views/article/article.vue'
+import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
+import article from "./views/article/article";
 
 let routes = [
     {
@@ -39,11 +42,11 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: '导航二',
+        name: '博文管理',
         iconCls: 'fa fa-id-card-o',
         children: [
-            { path: '/page4', component: Page4, name: '页面4' },
-            { path: '/page5', component: Page5, name: '页面5' }
+            { path: '/article-add-or-update', component: ArticleAddOrUpdate, name: '新增博文' },
+            { path: '/article', component: Article, name: '博文列表' }
         ]
     },
     {
