@@ -8,9 +8,20 @@
         <el-form-item prop="checkPass">
             <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
         </el-form-item>
+        <el-form-item prop="captcha">
+            <el-row :gutter="20">
+                <el-col :span="14">
+                    <el-input v-model="ruleForm2.captcha" placeholder="验证码">
+                    </el-input>
+                </el-col>
+                <el-col :span="10" class="login-captcha">
+                    <img width="100%" :src="captchaPath" @click="getCaptcha()" alt="">
+                </el-col>
+            </el-row>
+        </el-form-item>
         <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
         <el-form-item style="width:100%;">
-            <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录
+            <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="login">登录
             </el-button>
             <!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
         </el-form-item>
@@ -18,44 +29,49 @@
 </template>
 
 <script>
-    import {getUserInfo, requestLogin, resetHeader} from '../api/api';
-    //import NProgress from 'nprogress'
+    import {getBase, getUserInfo, requestLogin, resetHeader} from '../api/api';
+
     export default {
         data() {
             return {
-                logining: false,
+                login: false,
+                captchaPath: "",
                 ruleForm2: {
+                    captcha: "",
+                    uuid: "",
                     account: '18201153450',
                     checkPass: '123456'
                 },
                 rules2: {
                     account: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
-                        //{ validator: validaePass }
                     ],
                     checkPass: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        //{ validator: validaePass2 }
+                    ],
+                    captcha: [
+                        {required: true, message: '请输入验证码', trigger: 'blur'},
                     ]
                 },
                 checked: true
             };
         },
+        created() {
+            this.getCaptcha()
+        },
         methods: {
-            handleReset2() {
-                this.$refs.ruleForm2.resetFields();
-            },
             handleSubmit2() {
                 this.$refs.ruleForm2.validate((valid) => {
                     if (valid) {
-                        //_this.$router.replace('/table');
-                        this.logining = true;
-                        //NProgress.start();
+                        this.login = true;
                         let loginParams = new FormData();
                         loginParams.append('phone', this.ruleForm2.account);
                         loginParams.append('password', this.ruleForm2.checkPass);
+                        loginParams.append('uuid', this.ruleForm2.uuid);
+                        loginParams.append('captcha', this.ruleForm2.captcha);
+
                         requestLogin(loginParams).then(result => {
-                            this.logining = false;
+                            this.login = false;
                             //NProgress.done();
                             let {message, code, data} = result;
                             if (code !== 0) {
@@ -63,6 +79,7 @@
                                     message: message,
                                     type: 'error'
                                 });
+                                this.getCaptcha()
                             } else {
                                 sessionStorage.setItem('token', data);
                                 resetHeader();
@@ -77,10 +94,17 @@
                         return false;
                     }
                 });
+            },
+            getCaptcha: function () {
+                this.captchaPath = getBase() + "/captcha.jpg?uuid=" + this.getUUID()
+            },
+            getUUID() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+                    return (c === 'x' ? (Math.random() * 16 | 0) : ('r&0x3' | '0x8')).toString(16)
+                })
             }
         }
     }
-
 </script>
 
 <style lang="scss" scoped>

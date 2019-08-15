@@ -1,9 +1,13 @@
 import axios from 'axios';
 
-let base = 'http://weixin.songyuankun.top/admin';
-// let base = 'http://localhost:8082/admin';
+// let base = 'http://weixin.songyuankun.top/admin';
+let base = 'http://localhost:8082/admin';
 let headers = {
     'Authorization': sessionStorage.getItem('token')
+};
+
+export const getBase = () => {
+    return base
 };
 export const resetHeader = () => {
     headers = {
@@ -12,10 +16,6 @@ export const resetHeader = () => {
 };
 export const requestLogin = params => {
     return axios.post(`${base}/loginByPassword`, params).then(res => res.data);
-};
-
-export const getUserList = params => {
-    return axios.post(`${base}/user/page`, {params: params}, {headers: headers});
 };
 
 export const getUserInfo = () => {
@@ -33,7 +33,6 @@ export const editUser = params => {
 export const addUser = params => {
     return axios.get(`${base}/user/saveOrUpdate`, {params: params});
 };
-
 
 export const getAppointmentList = params => {
     return axios.post(`${base}/room_appointment/queryAppointmentList`, params, {headers: headers});
