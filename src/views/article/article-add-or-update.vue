@@ -95,8 +95,7 @@
 <script>
     import MavonEditor from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
-    import {getSysParamArr, treeDataTranslate} from '../../util/myUtil'
-    import marked from 'marked'
+    import {fileUpload} from "../../api/api";
 
     export default {
         components: {
@@ -128,9 +127,9 @@
                 }
             }
         },
-        methods:{
+        methods: {
             // 过滤标签
-            filterTagList (selectValueList) {
+            filterTagList(selectValueList) {
                 let tagList = [];
                 selectValueList.forEach(value => {
                     let isInput = true;
@@ -147,6 +146,47 @@
                 });
                 this.article.tagList = tagList
             },
+            // 上传之前
+            beforeUploadHandle(file) {
+                if (file.type !== 'image/jpg' && file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+                    this.$message.error('只支持jpg、png、gif格式的图片！');
+                    return false
+                }
+            },
+            // 上传成功
+            successHandle(response) {
+                if (response && response.code === 200) {
+                    this.article.cover = response.resource.url
+                    this.file = [response.resource]
+                    this.$message.success('上传成功！')
+                }
+            },
+            // 移除上传文件
+            handleRemove(file, fileList) {
+                this.file = []
+                this.article.cover = ''
+            },
+            saveArticle() {
+                this.$refs['articleForm'].validate((valid) => {
+                    if (valid) {
+
+                    } else {
+                        return false
+                    }
+                })
+            },
+            // 文章内容图片上传
+            imgAdd(pos, $file) {
+                // 第一步.将图片上传到服务器.
+                let formData = new FormData();
+                formData.append('file', $file);
+                fileUpload(formData).then(({data}) => {
+                    console.info(data)
+                })
+            },
+            mavonChangeHandle(context, render) {
+                this.article.contentFormat = marked(context)
+            }
         }
     }
 </script>

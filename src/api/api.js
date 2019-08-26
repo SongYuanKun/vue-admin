@@ -45,3 +45,7 @@ export const changeStatus = params => {
 export const getArticleList = params => {
     return axios.post(`${base}/article/page`, params, {headers: headers});
 };
+
+export const fileUpload = params => {
+    return axios.post(`${base}/upload/file`, params, {headers: headers});
+};
