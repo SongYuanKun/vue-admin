@@ -40,7 +40,7 @@ let routes = [
         path: '/',
         component: Home,
         name: '博文管理',
-        iconCls: 'fa fa-id-card-o',
+        iconCls: 'fa fa-file-text-o',
         children: [
             {path: '/article-add-or-update', component: ArticleAddOrUpdate, name: '新增博文'},
             {path: '/article', component: Article, name: '博文列表'},
@@ -51,24 +51,20 @@ let routes = [
                 hidden: true
             },
         ]
-    },
-    {
+    }, {
         path: '/',
         component: Home,
-        name: '',
-        iconCls: 'fa fa-address-card',
-        leaf: true,//只有一个节点
+        name: '运营',
+        iconCls: 'fa  fa-line-chart',
         children: [
-            {path: '/page6', component: Page6, name: '导航三'}
-        ]
-    },
-    {
-        path: '/',
-        component: Home,
-        name: 'Charts',
-        iconCls: 'fa fa-bar-chart',
-        children: [
-            {path: '/echarts', component: echarts, name: 'echarts'}
+            {path: '/article-add-or-update', component: ArticleAddOrUpdate, name: '新增博文'},
+            {path: '/article', component: Article, name: '博文列表'},
+            {
+                path: '/article/article/update/:id',
+                component: ArticleAddOrUpdate,
+                name: '博文修改',
+                hidden: true
+            },
         ]
     },
     {
