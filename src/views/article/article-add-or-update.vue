@@ -3,7 +3,7 @@
         <el-form :model="article" label-width="80px" :rules="rules" ref="articleForm">
             <el-form-item label="博文标题" prop="title">
                 <el-col :span="12">
-                    <el-input placeholder="博文标题" v-model="article.title" clearable></el-input>
+                    <el-input placeholder="博文标题" v-model="article.title" clearable="clearable"></el-input>
                 </el-col>
             </el-form-item>
             <el-row>
@@ -28,7 +28,7 @@
                                 allow-create
                                 filterable
                                 default-first-option
-                                placeholder="请选择文章标签" @change="filterTagList">
+                                placeholder="请选择文章标签" @change="filterTagList" value="">
                             <el-option
                                     v-for="item in tagList"
                                     :key="item.id"
@@ -42,7 +42,7 @@
             <el-form-item label="博文作者">
                 <el-row>
                     <el-col :span="4">
-                        <el-input placeholder="博文作者" v-model="article.author" clearable></el-input>
+                        <el-input placeholder="博文作者" v-model="article.author" clearable="clearable"></el-input>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -67,6 +67,7 @@
                             :multiple="false"
                             :before-upload="beforeUploadHandle"
                             :file-list="file"
+                            :headers="headers"
                             :on-remove="handleRemove"
                             :on-success="successHandle">
                         <i class="el-icon-upload"></i>
@@ -77,7 +78,8 @@
             </el-form-item>
             <el-form-item label="博文描述">
                 <el-col :span="12">
-                    <el-input type="textarea" v-model="article.description" placeholder="博文描述" clearable></el-input>
+                    <el-input type="textarea" v-model="article.description" placeholder="博文描述"
+                              clearable="clearable"></el-input>
                 </el-col>
             </el-form-item>
             <el-form-item label="博文内容">
@@ -95,7 +97,9 @@
 <script>
     import MavonEditor from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
-    import {fileUpload} from "../../api/api";
+    import {fileUpload, getBase,} from "../../api/api";
+    import {saveOrUpdateArticle} from "../../api/articleApi";
+    import marked from 'marked'
 
     export default {
         components: {
@@ -104,13 +108,17 @@
         data() {
             return {
                 article: {
+                    author: "",
                     recommend: false,
                     tagList: [],
                     type: 0,
                     coverType: 2 // 默认无图片
                 },
+                headers: {
+                    'Authorization': sessionStorage.getItem('token')
+                },
                 coverTypeList: [],
-                url: '',
+                url: getBase() + '/upload/file',
                 file: [],
                 rules: {
                     title: {required: true, message: '请输入博文标题', trigger: 'change'}
@@ -127,7 +135,14 @@
                 }
             }
         },
+        created() {
+            this.init()
+        },
         methods: {
+            init() {
+
+            },
+
             // 过滤标签
             filterTagList(selectValueList) {
                 let tagList = [];
@@ -155,21 +170,25 @@
             },
             // 上传成功
             successHandle(response) {
-                if (response && response.code === 200) {
-                    this.article.cover = response.resource.url
-                    this.file = [response.resource]
+                console.info(response);
+                if (response && response.code === 0) {
+                    this.article.cover = response.data.url;
+                    this.file = [response.data];
                     this.$message.success('上传成功！')
                 }
             },
             // 移除上传文件
-            handleRemove(file, fileList) {
-                this.file = []
+            handleRemove() {
+                this.file = [];
                 this.article.cover = ''
             },
             saveArticle() {
                 this.$refs['articleForm'].validate((valid) => {
                     if (valid) {
-
+                        this.article.categoryId = this.categoryOptionsSelect.join(',');
+                        saveOrUpdateArticle(this.article).then((res) => {
+                            console.info(res);
+                        })
                     } else {
                         return false
                     }
@@ -184,7 +203,7 @@
                     console.info(data)
                 })
             },
-            mavonChangeHandle(context, render) {
+            mavonChangeHandle(context) {
                 this.article.contentFormat = marked(context)
             }
         }

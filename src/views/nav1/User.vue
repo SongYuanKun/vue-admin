@@ -17,7 +17,7 @@
 
         <!--列表-->
         <el-table :data="users" highlight-current-row v-loading="listLoading" @sort-change="sortChange"
-                  @selection-change="selsChange"
+                  @selection-change="selectChange"
                   style="width: 100%;">
             <el-table-column type="index" width="60">
             </el-table-column>
@@ -106,8 +106,7 @@
 
 <script>
     import util from '../../common/js/util'
-    //import NProgress from 'nprogress'
-    import {getUserListPage, editUser, addUser} from '../../api/api';
+    import {getUserListPage, editUser, addUser} from '../../api/userApi';
 
     export default {
         data() {
@@ -242,9 +241,10 @@
                     }
                 });
             },
-            selsChange: function (sels) {
-                this.sels = sels;
-            }, sortChange: function (sort) {
+            selectChange: function (select) {
+                this.select = select;
+            },
+            sortChange: function (sort) {
                 console.info(sort);
             },
         },
