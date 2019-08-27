@@ -1,6 +1,8 @@
 import * as api from './api';
 import axios from 'axios';
 
+let base = api.getBase();
+
 export const getUserInfo = () => {
     return axios.get(`${base}/user`, {headers: api.getHeaders()});
 };

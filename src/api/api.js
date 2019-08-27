@@ -28,13 +28,6 @@ export const changeStatus = params => {
     return axios.get(`${base}/room_appointment/changeStatus`, {params: params, headers: headers});
 };
 
-export const saveOrUpdateArticle = params => {
-    return axios.post(`${base}/article/saveOrUpdate`, params, {headers: headers});
-};
-export const getArticleList = params => {
-    return axios.post(`${base}/article/page`, params, {headers: headers});
-};
-
 export const fileUpload = params => {
     return axios.post(`${base}/upload/file`, params, {headers: headers});
 };

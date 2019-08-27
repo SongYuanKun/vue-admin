@@ -140,7 +140,8 @@
         },
         methods: {
             init() {
-
+                let id = this.$route.params.id;
+                console.info(id);
             },
 
             // 过滤标签

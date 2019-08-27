@@ -17,26 +17,60 @@
             <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
                 <el-table-column type="index" min-width="10%">
                 </el-table-column>
-                <el-table-column prop="id" label="编号" sortable="sortable">
+                <el-table-column prop="id" label="编号">
                 </el-table-column>
-                <el-table-column prop="userName" label="姓名" sortable="sortable">
+                <el-table-column prop="title" label="博文标题">
                 </el-table-column>
-                <el-table-column prop="phone" label="电话" sortable="sortable">
+                <el-table-column prop="categoryListStr" label="分类">
                 </el-table-column>
-                <el-table-column prop="day" label="日期" sortable="sortable">
-                </el-table-column>
-                <el-table-column prop="timeValue" label="时间段" sortable="sortable">
-                </el-table-column>
-                <el-table-column prop="status" label="状态" :formatter="formatStatus" sortable="sortable">
-                </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column prop="tagList" label="标签">
                     <template slot-scope="scope">
-                        <el-button size="small" v-if="scope.row.status!==1&&scope.row.status!==2"
-                                   @click="changeStatus(scope.row.id,1)">签到
-                        </el-button>
-                        <el-button size="small" v-if="scope.row.status!==1&&scope.row.status!==2"
-                                   @click="changeStatus(scope.row.id,2)">取消
-                        </el-button>
+                        <el-row>
+                            <el-button v-for="tag in scope.row.tagList" :key="tag.id" size="mini">{{tag.name}}
+                            </el-button>
+                        </el-row>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="readNum" label="浏览">
+                </el-table-column>
+                <el-table-column prop="commentNum" label="评论">
+                </el-table-column>
+                <el-table-column prop="likeNum" label="喜欢">
+                </el-table-column>
+                <el-table-column prop="recommend" label="推荐">
+                </el-table-column>
+                <el-table-column
+                        prop="recommend"
+                        header-align="center"
+                        align="center"
+                        label="置顶">
+                    <template slot-scope="scope">
+                        <el-switch
+                                v-model="scope.row.top"
+                                active-color="#13ce66"
+                                @change="">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="recommend"
+                        header-align="center"
+                        align="center"
+                        label="状态">
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="dark" content="点击发布" v-if="!scope.row.publish" placement="top">
+                            <el-button type="info" size="mini" @click="">未发布</el-button>
+                        </el-tooltip>
+                        <el-tooltip class="item" effect="dark" content="点击下架" v-if="scope.row.publish" placement="top">
+                            <el-button type="success" size="mini" @click="" v-if="scope.row.publish === true">已发布
+                            </el-button>
+                        </el-tooltip>
+                    </template>
+                </el-table-column>
+                <el-table-column fixed="right" label="操作">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+                        <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -51,7 +85,7 @@
     </section>
 </template>
 <script>
-    import {getArticleList} from '../../api/api';
+    import {getArticleList} from '../../api/articleApi';
 
     export default {
         data() {
@@ -96,6 +130,12 @@
             handleCurrentChange(val) {
                 this.filters.pageNumber = val;
                 this.getAppoint();
+            },
+            // 新增 / 修改
+            addOrUpdateHandle(id) {
+                this.$router.push({path: 'article/article/update/' + id})
+            },
+            deleteHandle(id) {
             }
         },
         mounted() {

@@ -29,7 +29,8 @@
 </template>
 
 <script>
-    import {getBase, getUserInfo, requestLogin, resetHeader} from '../api/api';
+    import {getBase, requestLogin, resetHeader} from '../api/api';
+    import {getUserInfo} from '../api/userApi';
     import {getUUID} from "../util/myUtil";
 
     export default {
@@ -97,8 +98,8 @@
                 });
             },
             getCaptcha: function () {
-                let uuid=getUUID();
-                this.ruleForm2.uuid=uuid;
+                let uuid = getUUID();
+                this.ruleForm2.uuid = uuid;
                 this.captchaPath = getBase() + "/captcha.jpg?uuid=" + uuid
             }
         }
