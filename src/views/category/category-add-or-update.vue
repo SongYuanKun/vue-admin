@@ -11,12 +11,12 @@
                     </el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item :label="getSysParam('CATEGORY_RANK',dataForm.rank,rankList)+'名称'" prop="name">
+            <el-form-item :label="'名称'" prop="name">
                 <el-input v-model="dataForm.name" placeholder="名称"></el-input>
             </el-form-item>
             <el-form-item label="所属分类" prop="type">
                 <el-select placeholder="请选择所属分类" clearable filterable v-model="dataForm.type"
-                           @change="getCategorySelect()">
+                           @change="getCategorySelect()" value="">
                     <el-option
                             v-for="type in typeList"
                             :key="type.parKey"
@@ -79,8 +79,8 @@
                         {required: true, message: '父主键不能为空', trigger: 'blur'}
                     ]
                 },
-                rankList: this.getSysParamArr('CATEGORY_RANK'),
-                typeList: this.getSysParamArr('MODULE_TYPE').filter(type => {
+                rankList: [],
+                typeList: [].filter(type => {
                     if (type.parKey !== 2) {
                         return type
                     }
@@ -94,8 +94,8 @@
         },
         methods: {
             init(id) {
-                this.dataForm.id = id || ''
-                this.visible = true
+                this.dataForm.id = id || '';
+                this.visible = true;
                 this.$nextTick(() => {
                     this.$refs['dataForm'].resetFields()
                 })
