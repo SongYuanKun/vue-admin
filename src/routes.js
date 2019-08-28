@@ -7,6 +7,7 @@ import Form from './views/nav1/Form.vue'
 import Appointment from './views/nav1/Appointment.vue'
 import Article from './views/article/article.vue'
 import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
+import Category from './views/category/category.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
 
@@ -57,14 +58,7 @@ let routes = [
         name: '运营',
         iconCls: 'fa  fa-line-chart',
         children: [
-            {path: '/article-add-or-update', component: ArticleAddOrUpdate, name: '新增博文'},
-            {path: '/article', component: Article, name: '博文列表'},
-            {
-                path: '/article/article/update/:id',
-                component: ArticleAddOrUpdate,
-                name: '博文修改',
-                hidden: true
-            },
+            {path: '/category', component: Category, name: '标签'},
         ]
     },
     {

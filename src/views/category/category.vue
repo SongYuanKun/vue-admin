@@ -72,7 +72,7 @@
 <script>
 import TableTreeColumn from '@/components/table-tree-column'
 import AddOrUpdate from './category-add-or-update'
-import { treeDataTranslate } from '@/utils'
+import { treeDataTranslate } from '../../util/myUtil'
 export default {
   data () {
     return {
