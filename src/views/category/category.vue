@@ -20,7 +20,47 @@
         </el-form>
         <!--列表-->
         <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
-
+            <table-tree-column
+                    prop="name"
+                    header-align="center"
+                    width="150"
+                    label="名称">
+            </table-tree-column>
+            <el-table-column
+                    prop="type"
+                    header-align="center"
+                    align="center"
+                    label="类型">
+                <template slot-scope="scope">
+                    {{scope.row.type}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="rank"
+                    header-align="center"
+                    align="center"
+                    label="级别">
+                <template slot-scope="scope">
+                    {{scope.row.rank}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="parentName"
+                    header-align="center"
+                    align="center"
+                    label="上级级别">
+            </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    header-align="center"
+                    align="center"
+                    width="150"
+                    label="操作">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
+                    <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+                </template>
+            </el-table-column>
         </el-table>
         <!--工具条-->
         <el-col :span="24" class="toolbar">
@@ -37,6 +77,7 @@
     import {getCategoryList} from "../../api/categoryApi";
     import {treeDataTranslate} from "../../util/myUtil";
     import AddOrUpdate from './category-add-or-update.vue'
+    import TableTreeColumn from '../../components/table-tree-column/index'
 
     export default {
         data() {
@@ -57,7 +98,8 @@
         },
         components: {
             AddOrUpdate,
-            treeDataTranslate
+            treeDataTranslate,
+            TableTreeColumn
         },
         methods: {
             formatStatus: function (row) {
@@ -79,10 +121,9 @@
             getAppoint: function () {
                 this.loading = true;
                 getCategoryList(this.filter).then((res) => {
-                    this.list = res.data.content;
+                    this.list = treeDataTranslate(res.data.content);
                     this.total = res.data.totalElements;
                     this.loading = false;
-                    //NProgress.done();
                 });
             },
             handleCurrentChange(val) {

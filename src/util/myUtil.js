@@ -46,22 +46,6 @@ export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
     return res
 }
 
-/**
- * 根据type获取参数列表
- * @param type
- * @returns {Array}
- */
-export function getSysParamArr(type) {
-    let sysParamList = JSON.parse(localStorage.getItem('sysParamList'));
-    let resultArr = [];
-    for (let i = 0; i < sysParamList.length; i++) {
-        let sysParam = sysParamList[i];
-        if (sysParam.type === type) {
-            resultArr.push(sysParam)
-        }
-    }
-    return resultArr
-}
 
 export function debounce(func, wait, immediate) {
     let timeout, args, context, timestamp, result;

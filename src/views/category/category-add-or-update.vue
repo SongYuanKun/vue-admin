@@ -54,13 +54,13 @@
 
 <script>
     import {treeDataTranslate} from '../../util/myUtil'
-    import {selectCategory} from "../../api/categoryApi";
+    import {saveOrUpdateCategory, selectCategory} from "../../api/categoryApi";
 
     export default {
         data() {
             return {
                 visible: false,
-                name:"",
+                name: "",
                 dataForm: {
                     rank: 0,
                     type: '',
@@ -107,9 +107,6 @@
             }
         },
         methods: {
-            inputChange() {
-                this.$forceUpdate();
-            },
             init(id) {
                 this.dataForm.id = id || '';
                 this.visible = true;
@@ -145,7 +142,7 @@
                         type: '',
                         parentId: 0,
                         parentName: '',
-                        name:""
+                        name: ""
                     }
                 }
             },
@@ -164,7 +161,15 @@
             dataFormSubmit() {
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
-
+                        saveOrUpdateCategory(this.dataForm).then(({data}) => {
+                            if (data && data.code === 0) {
+                                alert("成功");
+                                this.visible = false;
+                                this.$emit('refreshDataList')
+                            } else {
+                                alert(data.msg)
+                            }
+                        });
                     }
                 })
             },
