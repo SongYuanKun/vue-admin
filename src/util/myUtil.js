@@ -46,23 +46,6 @@ export function treeDataTranslate(data, id = 'id', pid = 'parentId') {
     return res
 }
 
-
-/**
- * 根据Type获取参数
- * @param type
- * @param key
- * @returns {*}
- */
-export function getSysParam(type, key, list) {
-    let sysParamList = list || JSON.parse(localStorage.getItem('sysParamList'));
-    for (let i = 0; i < sysParamList.length; i++) {
-        let sysParam = sysParamList[i];
-        if (sysParam.type === type && sysParam.parKey === (key)) {
-            return sysParam.parValue
-        }
-    }
-}
-
 /**
  * 根据type获取参数列表
  * @param type

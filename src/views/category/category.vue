@@ -1,6 +1,6 @@
 <template>
     <div class="mod-config">
-        <el-form :inline="true" :model="dataForm" @keyup.enter.native="getAppoint()">
+        <el-form :inline="true" :model="filter" @keyup.enter.native="getAppoint()">
             <el-form-item>
                 <el-select clearable value="">
                     <el-option v-for="type in typeList"
@@ -10,7 +10,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-input placeholder="名称" clearable></el-input>
+                <el-input v-model="filter.name" clearable placeholder="名称"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getAppoint()">查询</el-button>
@@ -42,11 +42,11 @@
         data() {
             return {
                 total: 0,
-                dataForm: {
+                filter: {
                     pageNumber: 1,
                     pageSize: 10,
-                    name: '',
-                    type: ''
+                    name: "",
+                    type: ""
                 },
                 loading: false,
                 list: [],
@@ -78,7 +78,7 @@
 
             getAppoint: function () {
                 this.loading = true;
-                getCategoryList(this.dataForm).then((res) => {
+                getCategoryList(this.filter).then((res) => {
                     this.list = res.data.content;
                     this.total = res.data.totalElements;
                     this.loading = false;

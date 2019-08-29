@@ -4,12 +4,15 @@ import axios from 'axios';
 let base = api.getBase();
 
 export const saveOrUpdateCategory = params => {
-    return axios.post(`${base}/article/saveOrUpdate`, params, {headers: api.getHeaders()});
+    return axios.post(`${base}/category/saveOrUpdate`, params, {headers: api.getHeaders()});
 };
 export const getCategoryList = params => {
-    return axios.post(`${base}/article/page`, params, {headers: api.getHeaders()});
+    return axios.post(`${base}/category/page`, params, {headers: api.getHeaders()});
 };
 
+export const selectCategory = type => {
+    return axios.get(`${base}/category/select?type=` + type, {headers: api.getHeaders()});
+};
 export const deleteCategory = id => {
-    return axios.get(`${base}/article/saveOrUpdate/`+id, {headers: api.getHeaders()});
+    return axios.get(`${base}/category/delete/` + id, {headers: api.getHeaders()});
 };

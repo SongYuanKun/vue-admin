@@ -11,7 +11,7 @@
                     </el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item :label="'名称'" prop="name">
+            <el-form-item label="名称" prop="name">
                 <el-input v-model="dataForm.name" placeholder="名称"></el-input>
             </el-form-item>
             <el-form-item label="所属分类" prop="type">
@@ -54,11 +54,13 @@
 
 <script>
     import {treeDataTranslate} from '../../util/myUtil'
+    import {selectCategory} from "../../api/categoryApi";
 
     export default {
         data() {
             return {
                 visible: false,
+                name:"",
                 dataForm: {
                     rank: 0,
                     type: '',
@@ -79,8 +81,20 @@
                         {required: true, message: '父主键不能为空', trigger: 'blur'}
                     ]
                 },
-                rankList: [],
-                typeList: [].filter(type => {
+                rankList: [{
+                    parKey: 0,
+                    parValue: "一级"
+                }, {
+                    parKey: 1,
+                    parValue: "二级"
+                }, {
+                    parKey: 2,
+                    parValue: "三级"
+                }],
+                typeList: [{
+                    parKey: 0,
+                    parValue: "文章"
+                }].filter(type => {
                     if (type.parKey !== 2) {
                         return type
                     }
@@ -93,12 +107,15 @@
             }
         },
         methods: {
+            inputChange() {
+                this.$forceUpdate();
+            },
             init(id) {
                 this.dataForm.id = id || '';
                 this.visible = true;
                 this.$nextTick(() => {
                     this.$refs['dataForm'].resetFields()
-                })
+                });
                 if (this.dataForm.id) {
                     this.$http({
                         url: this.$http.adornUrl(`/admin/operation/category/info/${this.dataForm.id}`),
@@ -110,12 +127,12 @@
                         }
                     }).then(() => {
                         this.$http({
-                            url: this.$http.adornUrl('/admin/operation/category/select'),
+                            url: this.$http.adornUrl('/admin/category/select'),
                             method: 'get',
                             params: this.$http.adornParams({type: this.dataForm.type})
                         }).then(({data}) => {
                             if (data && data.code === 200) {
-                                this.categoryList = treeDataTranslate(data.categoryList)
+                                this.categoryList = treeDataTranslate(data.categoryList);
                                 this.categoryListTreeSetCurrentNode()
                             } else {
                                 this.categoryList = []
@@ -127,19 +144,17 @@
                         rank: 0,
                         type: '',
                         parentId: 0,
-                        parentName: ''
+                        parentName: '',
+                        name:""
                     }
                 }
             },
             // 获取目录列表
             getCategorySelect() {
-                this.$http({
-                    url: this.$http.adornUrl('/admin/operation/category/select'),
-                    method: 'get',
-                    params: this.$http.adornParams({type: this.dataForm.type})
-                }).then(({data}) => {
-                    if (data && data.code === 200) {
-                        this.categoryList = treeDataTranslate(data.categoryList)
+                const type = this.dataForm.type;
+                selectCategory(type).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.categoryList = treeDataTranslate(data.data)
                     } else {
                         this.categoryList = []
                     }
@@ -149,42 +164,18 @@
             dataFormSubmit() {
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
-                        this.$http({
-                            url: this.$http.adornUrl(`/admin/operation/category/${!this.dataForm.categoryId ? 'save' : 'update'}`),
-                            method: 'post',
-                            data: this.$http.adornData({
-                                'id': this.dataForm.categoryId || undefined,
-                                'name': this.dataForm.name,
-                                'type': this.dataForm.type,
-                                'rank': this.dataForm.rank,
-                                'parentId': this.dataForm.parentId
-                            })
-                        }).then(({data}) => {
-                            if (data && data.code === 200) {
-                                this.$message({
-                                    message: '操作成功',
-                                    type: 'success',
-                                    duration: 1500,
-                                    onClose: () => {
-                                        this.visible = false
-                                        this.$emit('refreshDataList')
-                                    }
-                                })
-                            } else {
-                                this.$message.error(data.msg)
-                            }
-                        })
+
                     }
                 })
             },
             // 分类列表树选中
             categoryListTreeCurrentChangeHandle(data, node) {
-                this.dataForm.parentId = data.id
-                this.dataForm.parentName = data.name
+                this.dataForm.parentId = data.id;
+                this.dataForm.parentName = data.name;
             },
             // 分类列表树设置当前选中节点
             categoryListTreeSetCurrentNode() {
-                this.$refs.categoryListTree.setCurrentKey(this.dataForm.parentId)
+                this.$refs.categoryListTree.setCurrentKey(this.dataForm.parentId);
                 this.dataForm.parentName = (this.$refs.categoryListTree.getCurrentNode() || {})['name']
             }
         }

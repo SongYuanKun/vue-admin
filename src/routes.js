@@ -8,8 +8,6 @@ import Appointment from './views/nav1/Appointment.vue'
 import Article from './views/article/article.vue'
 import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
 import Category from './views/category/category.vue'
-import Page6 from './views/nav3/Page6.vue'
-import echarts from './views/charts/echarts.vue'
 
 let routes = [
     {
