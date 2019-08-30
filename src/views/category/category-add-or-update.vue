@@ -54,7 +54,7 @@
 
 <script>
     import {treeDataTranslate} from '../../util/myUtil'
-    import {saveOrUpdateCategory, selectCategory} from "../../api/categoryApi";
+    import {getCategoryInfo, saveOrUpdateCategory, selectCategory} from "../../api/categoryApi";
 
     export default {
         data() {
@@ -114,22 +114,14 @@
                     this.$refs['dataForm'].resetFields()
                 });
                 if (this.dataForm.id) {
-                    this.$http({
-                        url: this.$http.adornUrl(`/admin/operation/category/info/${this.dataForm.id}`),
-                        method: 'get',
-                        params: this.$http.adornParams()
-                    }).then(({data}) => {
-                        if (data && data.code === 200) {
-                            this.dataForm = data.category
+                    getCategoryInfo(this.dataForm.id).then(({data}) => {
+                        if (data && data.code === 0) {
+                            this.dataForm = data.data
                         }
                     }).then(() => {
-                        this.$http({
-                            url: this.$http.adornUrl('/admin/category/select'),
-                            method: 'get',
-                            params: this.$http.adornParams({type: this.dataForm.type})
-                        }).then(({data}) => {
-                            if (data && data.code === 200) {
-                                this.categoryList = treeDataTranslate(data.categoryList);
+                        selectCategory(this.dataForm.type).then(({data}) => {
+                            if (data && data.code === 0) {
+                                this.categoryList = treeDataTranslate(data.data);
                                 this.categoryListTreeSetCurrentNode()
                             } else {
                                 this.categoryList = []

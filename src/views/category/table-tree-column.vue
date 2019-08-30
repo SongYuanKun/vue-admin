@@ -11,6 +11,7 @@
 
 <script>
     import isArray from 'lodash/isArray'
+    import {getChildrenList} from "../../api/categoryApi";
 
     export default {
         name: 'table-tree-column',
@@ -30,9 +31,9 @@
                 type: String,
                 default: '_level'
             },
-            childKey: {
-                type: String,
-                default: 'children'
+            hasChild: {
+                type: Boolean,
+                default: false
             }
         },
         methods: {
@@ -43,27 +44,24 @@
                 return [!row._expanded ? 'el-icon-caret-right' : 'el-icon-caret-bottom']
             },
             iconStyles(row) {
-                return {'visibility': this.hasChild(row) ? 'visible' : 'hidden'}
+                return {'visibility': row.hasChild ? 'visible' : 'hidden'}
             },
-            hasChild(row) {
-                return (isArray(row[this.childKey]) && row[this.childKey].length >= 1) || false
-            },
+
             // 切换处理
             toggleHandle(index, row) {
-                if (this.hasChild(row)) {
-                    let data = this.$parent.store.states.data.slice(0);
-                    data[index]._expanded = !data[index]._expanded;
-                    if (data[index]._expanded) {
+                if (row.hasChild) {
+                    getChildrenList(row.id).then((resp) => {
+                        console.info(resp);
+                    });
+                    var data = this.$parent.store.states.data.slice(0)
                         data = data.splice(0, index + 1).concat(row[this.childKey]).concat(data)
-                    } else {
-                        data = this.removeChildNode(data, row[this.treeKey])
-                    }
                     this.$parent.store.commit('setData', data);
                     this.$nextTick(() => {
                         this.$parent.doLayout()
                     })
                 }
             },
+
             // 移除子节点
             removeChildNode(data, parentId) {
                 let parentIds = isArray(parentId) ? parentId : [parentId];

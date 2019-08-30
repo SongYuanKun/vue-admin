@@ -8,13 +8,12 @@ export function getUUID() {
     })
 }
 
-/**
- * @Description: 是否有权限
- * @author Bobbi
- * @date 18-9-28
- */
-export function isAuth(key) {
-    return JSON.parse(sessionStorage.getItem('permissions') || '[]').indexOf(key) !== -1 || false
+export function getValueByKey(key, valueTextArr) {
+    for (let i = 0; i < valueTextArr.length; i++) {
+        if (key === valueTextArr[i].parKey) {
+            return valueTextArr[i].parValue;
+        }
+    }
 }
 
 /**

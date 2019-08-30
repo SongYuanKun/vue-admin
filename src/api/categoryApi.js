@@ -10,9 +10,21 @@ export const getCategoryList = params => {
     return axios.post(`${base}/category/page`, params, {headers: api.getHeaders()});
 };
 
+
+
 export const selectCategory = type => {
     return axios.get(`${base}/category/select?type=` + type, {headers: api.getHeaders()});
 };
+
+export const getCategoryInfo = id => {
+    return axios.get(`${base}/category/info/` + id, {headers: api.getHeaders()});
+};
+
+
+export const getChildrenList = parentId => {
+    return axios.get(`${base}/category/childrenList/`+parentId, {headers: api.getHeaders()});
+};
+
 export const deleteCategory = id => {
     return axios.get(`${base}/category/delete/` + id, {headers: api.getHeaders()});
 };

@@ -32,7 +32,7 @@
                     align="center"
                     label="类型">
                 <template slot-scope="scope">
-                    {{scope.row.type}}
+                    {{getValue(scope.row.type,typeList)}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -41,7 +41,7 @@
                     align="center"
                     label="级别">
                 <template slot-scope="scope">
-                    {{scope.row.rank}}
+                    {{getValue(scope.row.rank,rankList)}}
                 </template>
             </el-table-column>
             <el-table-column
@@ -74,10 +74,10 @@
 </template>
 
 <script>
-    import {getCategoryList} from "../../api/categoryApi";
-    import {treeDataTranslate} from "../../util/myUtil";
+    import {deleteCategory, getCategoryList} from "../../api/categoryApi";
+    import {getValueByKey, treeDataTranslate} from "../../util/myUtil";
     import AddOrUpdate from './category-add-or-update.vue'
-    import TableTreeColumn from '../../components/table-tree-column/index'
+    import TableTreeColumn from './table-tree-column'
 
     export default {
         data() {
@@ -92,8 +92,20 @@
                 loading: false,
                 list: [],
                 addOrUpdateVisible: false,
-                typeList: []
-
+                typeList: [{
+                    parKey: 0,
+                    parValue: "文章"
+                }],
+                rankList: [{
+                    parKey: 0,
+                    parValue: "一级"
+                }, {
+                    parKey: 1,
+                    parValue: "二级"
+                }, {
+                    parKey: 2,
+                    parValue: "三级"
+                }]
             }
         },
         components: {
@@ -102,6 +114,9 @@
             TableTreeColumn
         },
         methods: {
+            getValue: function (key, valueTextArr) {
+                return getValueByKey(key, valueTextArr);
+            },
             formatStatus: function (row) {
                 let status = "--";
                 switch (row.status) {
@@ -127,7 +142,7 @@
                 });
             },
             handleCurrentChange(val) {
-                this.filters.pageNumber = val;
+                this.filter.pageNumber = val;
                 this.getAppoint();
             },
             // 新增 / 修改
@@ -138,6 +153,8 @@
                 })
             },
             deleteHandle(id) {
+                deleteCategory(id);
+                this.getAppoint();
             }
         },
         mounted() {
