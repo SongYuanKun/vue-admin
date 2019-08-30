@@ -77,7 +77,7 @@
     import {deleteCategory, getCategoryList} from "../../api/categoryApi";
     import {getValueByKey, treeDataTranslate} from "../../util/myUtil";
     import AddOrUpdate from './category-add-or-update.vue'
-    import TableTreeColumn from './table-tree-column'
+    import TableTreeColumn from '../../components/table-tree-column/index'
 
     export default {
         data() {
