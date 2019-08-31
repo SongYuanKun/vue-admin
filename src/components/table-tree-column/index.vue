@@ -26,6 +26,10 @@
                 type: String,
                 default: 'parentId'
             },
+            levelKey: {
+                type: String,
+                default: '_level'
+            },
             childKey: {
                 type: String,
                 default: 'children'

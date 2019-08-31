@@ -141,7 +141,6 @@
                     this.list = treeDataTranslate(page.content);
                     this.total = page.totalElements;
                     this.loading = false;
-                    console.info(page.content);
                 });
             },
             handleCurrentChange(val) {
