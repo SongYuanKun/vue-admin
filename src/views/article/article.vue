@@ -7,7 +7,7 @@
                     <el-input placeholder="标题" v-model="filters.title" clearable="clearable"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" v-on:click="getAppoint">查询</el-button>
+                    <el-button type="primary" v-on:click="getDataList">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -114,7 +114,7 @@
                 return status;
             },
 
-            getAppoint: function () {
+            getDataList: function () {
                 this.loading = true;
                 //NProgress.start();
                 getArticleList(this.filters).then((res) => {
@@ -126,7 +126,7 @@
             },
             handleCurrentChange(val) {
                 this.filters.pageNumber = val;
-                this.getAppoint();
+                this.getDataList();
             },
             // 新增 / 修改
             addOrUpdateHandle(id) {
@@ -136,7 +136,7 @@
             }
         },
         mounted() {
-            this.getAppoint();
+            this.getDataList();
 
         }
     };

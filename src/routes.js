@@ -8,6 +8,7 @@ import Appointment from './views/nav1/Appointment.vue'
 import Article from './views/article/article.vue'
 import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
 import Category from './views/category/category.vue'
+import MyTag from "./views/tag/my-tag.vue";
 
 let routes = [
     {
@@ -56,7 +57,8 @@ let routes = [
         name: '运营',
         iconCls: 'fa  fa-line-chart',
         children: [
-            {path: '/category', component: Category, name: '标签'},
+            {path: '/category', component: Category, name: '分类'},
+            {path: '/tag', component: MyTag, name: '标签'},
         ]
     },
     {

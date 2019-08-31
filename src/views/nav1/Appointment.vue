@@ -14,7 +14,7 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" v-on:click="getAppoint">查询</el-button>
+                    <el-button type="primary" v-on:click="getDataList">查询</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -91,7 +91,7 @@
                 return status;
             },
 
-            getAppoint: function () {
+            getDataList: function () {
                 this.loading = true;
                 //NProgress.start();
                 getAppointmentList(this.filters).then((res) => {
@@ -103,7 +103,7 @@
             },
             handleCurrentChange(val) {
                 this.filters.pageNumber = val;
-                this.getAppoint();
+                this.getDataList();
             },
 
             changeStatus: function (id, status) {
@@ -112,13 +112,13 @@
                 let queryParams = {"id": id, "status": status};
                 changeStatus(queryParams).then((res) => {
                     console.info(res.data);
-                    this.getAppoint();
+                    this.getDataList();
                     this.loading = false;
                 });
             }
         },
         mounted() {
-            this.getAppoint();
+            this.getDataList();
 
         }
     };
