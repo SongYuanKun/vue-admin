@@ -136,9 +136,12 @@
             getAppoint: function () {
                 this.loading = true;
                 getCategoryList(this.filter).then((res) => {
-                    this.list = treeDataTranslate(res.data.content);
-                    this.total = res.data.totalElements;
+                    let page = res.data.data.categoryPage;
+                    page.content = page.content.concat(res.data.data.childrenList);
+                    this.list = treeDataTranslate(page.content);
+                    this.total = page.totalElements;
                     this.loading = false;
+                    console.info(page.content);
                 });
             },
             handleCurrentChange(val) {
