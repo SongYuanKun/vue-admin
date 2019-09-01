@@ -11,7 +11,6 @@ export const getCategoryList = params => {
 };
 
 
-
 export const selectCategory = type => {
     return axios.get(`${base}/category/select?type=` + type, {headers: api.getHeaders()});
 };

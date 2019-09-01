@@ -82,7 +82,7 @@
         components: {
             AddOrUpdate
         },
-        activated() {
+        mounted() {
             this.getDataList()
         },
         methods: {

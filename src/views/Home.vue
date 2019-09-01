@@ -143,6 +143,9 @@
 <style scoped lang="scss">
     @import '~scss_vars';
 
+    .el-menu-vertical-demo {
+        width: 230px;
+    }
     .container {
         position: absolute;
         top: 0;

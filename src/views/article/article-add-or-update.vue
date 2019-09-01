@@ -98,8 +98,11 @@
     import MavonEditor from 'mavon-editor'
     import 'mavon-editor/dist/css/index.css'
     import {fileUpload, getBase,} from "../../api/api";
-    import {saveOrUpdateArticle} from "../../api/articleApi";
+    import {getArticleInfo, saveOrUpdateArticle} from "../../api/articleApi";
     import marked from 'marked'
+    import {getCategoryInfo, getCategoryList, selectCategory} from "../../api/categoryApi";
+    import {treeDataTranslate} from "../../util/myUtil";
+    import {selectTag} from "../../api/tagApi";
 
     export default {
         components: {
@@ -117,7 +120,19 @@
                 headers: {
                     'Authorization': sessionStorage.getItem('token')
                 },
-                coverTypeList: [],
+                coverTypeList: [
+                    {
+                        parKey: 0,
+                        parValue: "小图片"
+                    },
+                    {
+                        parKey: 1,
+                        parValue: "大图片"
+                    }, {
+                        parKey: 2,
+                        parValue: "无图片"
+                    }
+                ],
                 url: getBase() + '/upload/file',
                 file: [],
                 rules: {
@@ -140,8 +155,31 @@
         },
         methods: {
             init() {
+                selectCategory(0).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.categoryOptions = treeDataTranslate(data.data);
+                    }
+                });
+                selectTag(0).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.tagList = data.data;
+                    }
+                });
                 let id = this.$route.params.id;
-                console.info(id);
+                if (id) {
+                    getArticleInfo(id).then(({data}) => {
+                        this.article = data.data;
+                        this.file = [{url: data.data.cover}];
+                        // 转换tagList
+                        this.tagListSelect = this.tagList.map(tag => {
+                            return tag.id;
+                        });
+                        // 转换categoryId
+                        this.categoryOptionsSelect = this.article.categoryId.split(',').map((data) => {
+                            return +data
+                        })
+                    })
+                }
             },
 
             // 过滤标签

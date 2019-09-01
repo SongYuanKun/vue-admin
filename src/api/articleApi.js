@@ -6,6 +6,11 @@ let base=api.getBase();
 export const saveOrUpdateArticle = params => {
     return axios.post(`${base}/article/saveOrUpdate`, params, {headers: api.getHeaders()});
 };
+
+export const getArticleInfo = id => {
+    return axios.get(`${base}/article/info/` + id, {headers: api.getHeaders()});
+};
+
 export const getArticleList = params => {
     return axios.post(`${base}/article/page`, params, {headers: api.getHeaders()});
 };
