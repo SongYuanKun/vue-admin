@@ -37,6 +37,13 @@
             <el-table-column prop="likeNum" label="喜欢">
             </el-table-column>
             <el-table-column prop="recommend" label="推荐">
+                <template slot-scope="scope">
+                    <el-switch
+                            v-model="scope.row.recommend"
+                            active-color="#13ce66"
+                            @change="updateRecommend(scope.row.id,scope.row.recommend)">
+                    </el-switch>
+                </template>
             </el-table-column>
             <el-table-column
                     prop="recommend"
@@ -47,7 +54,7 @@
                     <el-switch
                             v-model="scope.row.top"
                             active-color="#13ce66"
-                            @change="">
+                            @change="updateTop(scope.row.id,scope.row.top)">
                     </el-switch>
                 </template>
             </el-table-column>
@@ -58,10 +65,11 @@
                     label="状态">
                 <template slot-scope="scope">
                     <el-tooltip class="item" effect="dark" content="点击发布" v-if="!scope.row.publish" placement="top">
-                        <el-button type="info" size="mini" @click="">未发布</el-button>
+                        <el-button type="info" size="mini" @click="updatePublish(scope.row.id, true)">未发布</el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="点击下架" v-if="scope.row.publish" placement="top">
-                        <el-button type="success" size="mini" @click="" v-if="scope.row.publish === true">已发布
+                        <el-button type="success" size="mini" @click="updatePublish(scope.row.id, false)"
+                                   v-if="scope.row.publish === true">已发布
                         </el-button>
                     </el-tooltip>
                 </template>
@@ -82,7 +90,7 @@
     </section>
 </template>
 <script>
-    import {getArticleList} from '../../api/articleApi';
+    import {deleteById, getArticleList, updateStatus} from '../../api/articleApi';
 
     export default {
         data() {
@@ -121,7 +129,6 @@
                     this.list = res.data.content;
                     this.total = res.data.totalElements;
                     this.loading = false;
-                    //NProgress.done();
                 });
             },
             handleCurrentChange(val) {
@@ -133,6 +140,47 @@
                 this.$router.push({path: 'article/article/update/' + id})
             },
             deleteHandle(id) {
+                deleteById(id).then(({data}) => {
+                    if (data && data.status === 0) {
+                        this.getDataList();
+                    } else {
+                        alert(data.message);
+                    }
+                })
+            },
+            // 更新文章推荐状态
+            updateRecommend(id, value) {
+                let data = {
+                    id: id,
+                    recommend: value
+                };
+                this.updateStatus(data)
+            },
+            // 更新文章推荐状态
+            updateTop(id, value) {
+                let data = {
+                    id: id,
+                    top: value
+                };
+                this.updateStatus(data)
+            },
+            // 更新文章发布状态
+            updatePublish(id, value) {
+                let data = {
+                    id: id,
+                    publish: value
+                };
+                this.updateStatus(data)
+            },
+            // 更新文章
+            updateStatus(data) {
+                updateStatus(data).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.getDataList();
+                    } else {
+                        alert(data.message);
+                    }
+                })
             }
         },
         mounted() {

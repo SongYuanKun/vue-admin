@@ -154,6 +154,7 @@
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
                         saveOrUpdateCategory(this.dataForm).then(({data}) => {
+                            console.info(data);
                             if (data && data.code === 0) {
                                 alert("成功");
                                 this.visible = false;
