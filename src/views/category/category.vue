@@ -19,7 +19,7 @@
             </el-form-item>
         </el-form>
         <!--列表-->
-        <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
+        <el-table :data="dataList" highlight-current-row v-loading="loading" style="width: 100%;">
             <table-tree-column
                     prop="name"
                     header-align="center"
@@ -90,7 +90,7 @@
                     type: ""
                 },
                 loading: false,
-                list: [],
+                dataList: [],
                 addOrUpdateVisible: false,
                 typeList: [{
                     parKey: 0,
@@ -138,7 +138,7 @@
                 getCategoryList(this.filter).then((res) => {
                     let page = res.data.data.categoryPage;
                     page.content = page.content.concat(res.data.data.childrenList);
-                    this.list = treeDataTranslate(page.content);
+                    this.dataList = treeDataTranslate(page.content);
                     this.total = page.totalElements;
                     this.loading = false;
                 });

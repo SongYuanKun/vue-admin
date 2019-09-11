@@ -9,6 +9,7 @@ import Article from './views/article/article.vue'
 import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
 import Category from './views/category/category.vue'
 import MyTag from "./views/tag/my-tag.vue";
+import Recommend from "./views/recommend/recommend.vue";
 
 let routes = [
     {
@@ -59,6 +60,7 @@ let routes = [
         children: [
             {path: '/category', component: Category, name: '分类'},
             {path: '/tag', component: MyTag, name: '标签'},
+            {path: '/recommend', component: Recommend, name: '推荐'},
         ]
     },
     {

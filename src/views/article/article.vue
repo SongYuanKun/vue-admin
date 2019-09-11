@@ -13,7 +13,7 @@
         </el-col>
 
         <!--列表-->
-        <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
+        <el-table :data="dataList" highlight-current-row v-loading="loading" style="width: 100%;">
             <el-table-column type="index" min-width="10%">
             </el-table-column>
             <el-table-column prop="id" label="编号">
@@ -102,7 +102,7 @@
                     title: ''
                 },
                 loading: false,
-                list: []
+                dataList: []
             }
         },
         methods: {
@@ -125,11 +125,11 @@
             getDataList: function () {
                 this.loading = true;
                 //NProgress.start();
-                getArticleList(this.filters).then((res) => {
-                    this.list = res.data.content;
-                    this.total = res.data.totalElements;
+                getArticleList(this.filters).then(({data}) => {
+                    this.dataList = data.content;
+                    this.total = data.totalElements;
                     this.loading = false;
-                });
+                })
             },
             handleCurrentChange(val) {
                 this.filters.pageNumber = val;

@@ -21,7 +21,7 @@
 
         <!--列表-->
         <template>
-            <el-table :data="list" highlight-current-row v-loading="loading" style="width: 100%;">
+            <el-table :data="dataList" highlight-current-row v-loading="loading" style="width: 100%;">
                 <el-table-column type="index" min-width="10%">
                 </el-table-column>
                 <el-table-column prop="id" label="编号" sortable="sortable">
@@ -95,7 +95,7 @@
                 this.loading = true;
                 //NProgress.start();
                 getAppointmentList(this.filters).then((res) => {
-                    this.list = res.data.content;
+                    this.dataList = res.data.content;
                     this.total = res.data.totalElements;
                     this.loading = false;
                     //NProgress.done();
