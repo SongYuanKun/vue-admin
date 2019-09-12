@@ -126,8 +126,8 @@
                 this.loading = true;
                 //NProgress.start();
                 getArticleList(this.filters).then(({data}) => {
-                    this.dataList = data.content;
-                    this.total = data.totalElements;
+                    this.dataList = data.data.content;
+                    this.total = data.data.totalElements;
                     this.loading = false;
                 })
             },

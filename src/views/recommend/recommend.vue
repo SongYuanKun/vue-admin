@@ -133,7 +133,7 @@
             },
             deleteHandle(id) {
                 deleteById(id).then(({data}) => {
-                    if (data && data.status === 0) {
+                    if (data && data.code === 0) {
                         this.getDataList();
                     } else {
                         alert(data.message);

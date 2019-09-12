@@ -8,7 +8,7 @@ export const saveOrUpdateRecommend = params => {
 };
 
 export const updateTop = id => {
-    return axios.post(`${base}/recommend/top/` + id, {headers: api.getHeaders()});
+    return axios.get(`${base}/recommend/top/` + id, {headers: api.getHeaders()});
 };
 
 export const getRecommendInfo = id => {

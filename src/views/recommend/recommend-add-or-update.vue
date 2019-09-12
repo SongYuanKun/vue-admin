@@ -18,7 +18,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item>
-                            <el-input v-model="listParams.name" placeholder="文章标题" clearable></el-input>
+                            <el-input v-model="listParams.title" placeholder="文章标题" clearable></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="listRecommend()">查询</el-button>
@@ -63,7 +63,7 @@
 
 <script>
     import {getRecommendInfo, saveOrUpdateRecommend} from "../../api/recommendApi";
-    import {getArticleList} from "../../api/articleApi";
+    import {getArticleList, getPublicArticleList} from "../../api/articleApi";
     import {getValueByKey} from "../../util/myUtil";
 
     export default {
@@ -92,7 +92,11 @@
                     parKey: 2,
                     parValue: "三级"
                 }],
-                listParams: {}
+                listParams: {
+                    pageNumber: 1,
+                    pageSize: 10,
+                    title: ""
+                }
             }
         },
         methods: {
@@ -141,8 +145,8 @@
                 this.listRecommend();
             },
             listRecommend() {
-                getArticleList(this.listParams).then(({data}) => {
-                    this.recommendList = data.content
+                getPublicArticleList(this.listParams).then(({data}) => {
+                    this.recommendList = data.data.content
                 });
             },
             selectRecommend(recommend) {
