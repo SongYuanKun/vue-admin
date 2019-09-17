@@ -71,7 +71,7 @@
                     day: ''
                 },
                 loading: false,
-                list: []
+                dataList: []
             }
         },
         methods: {
