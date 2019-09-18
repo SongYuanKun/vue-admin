@@ -100,7 +100,7 @@
     import {fileUpload, getBase,} from "../../api/api";
     import {getArticleInfo, saveOrUpdateArticle} from "../../api/articleApi";
     import marked from 'marked'
-    import {getCategoryInfo, getCategoryList, selectCategory} from "../../api/categoryApi";
+    import {selectCategory} from "../../api/categoryApi";
     import {treeDataTranslate} from "../../util/myUtil";
     import {selectTag} from "../../api/tagApi";
 
@@ -225,8 +225,11 @@
                 this.$refs['articleForm'].validate((valid) => {
                     if (valid) {
                         this.article.categoryId = this.categoryOptionsSelect.join(',');
-                        saveOrUpdateArticle(this.article).then((res) => {
-                            console.info(res);
+                        saveOrUpdateArticle(this.article).then(() => {
+                            alert("保存成功");
+                            this.$emit('closeCurrentTabs');
+                            // 跳转到list
+                            this.$router.push('/article')
                         })
                     } else {
                         return false
