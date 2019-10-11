@@ -41,8 +41,8 @@
                 ruleForm2: {
                     captcha: "",
                     uuid: "",
-                    account: '18201153450',
-                    checkPass: '123456'
+                    account: '',
+                    checkPass: ''
                 },
                 rules2: {
                     account: [
