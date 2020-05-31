@@ -242,7 +242,7 @@
                 let formData = new FormData();
                 formData.append('file', $file);
                 fileUpload(formData).then(({data}) => {
-                    console.info(data)
+                    this.$refs.md.$img2Url(pos, data.data.url);
                 })
             },
             mavonChangeHandle(context) {

@@ -24,3 +24,7 @@ export const getArticleList = params => {
 export const getPublicArticleList = params => {
     return axios.post(`${base}/article/publicPage`, params, {headers: api.getHeaders()});
 };
+
+export const send2WeChat = id => {
+    return axios.get(`${base}/article/send2WeChat/`+id, {headers: api.getHeaders()});
+};
