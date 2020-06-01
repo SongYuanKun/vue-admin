@@ -10,6 +10,7 @@ import ArticleAddOrUpdate from './views/article/article-add-or-update.vue'
 import Category from './views/category/category.vue'
 import MyTag from "./views/tag/my-tag.vue";
 import Recommend from "./views/recommend/recommend.vue";
+import Article2WeChat from "./views/article/Article2WeChat";
 
 let routes = [
     {
@@ -45,6 +46,7 @@ let routes = [
         children: [
             {path: '/article-add-or-update', component: ArticleAddOrUpdate, name: '新增博文'},
             {path: '/article', component: Article, name: '博文列表'},
+            {path: '/Article2WeChat', component: Article2WeChat, name: '推送至微信'},
             {
                 path: '/article/article/update/:id',
                 component: ArticleAddOrUpdate,

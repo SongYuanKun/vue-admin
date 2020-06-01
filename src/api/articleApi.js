@@ -28,3 +28,7 @@ export const getPublicArticleList = params => {
 export const send2WeChat = id => {
     return axios.get(`${base}/article/send2WeChat/`+id, {headers: api.getHeaders()});
 };
+
+export const send2WeChatByIds = ids => {
+    return axios.post(`${base}/article/send2WeChat/ids`, ids,{headers: api.getHeaders()});
+};
