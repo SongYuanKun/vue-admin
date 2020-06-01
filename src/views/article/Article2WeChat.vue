@@ -83,7 +83,7 @@
     </section>
 </template>
 <script>
-    import {getArticleList} from '../../api/articleApi';
+    import {getArticleList, send2WeChatByIds} from '../../api/articleApi';
 
     export default {
         data() {
@@ -110,9 +110,9 @@
                     this.total = data.data.totalElements;
                     this.loading = false;
                 })
-            }, send2WeChatByIds: function () {
+            },
+            send2WeChatByIds: function () {
                 this.loading = true;
-                //NProgress.start();
                 send2WeChatByIds(this.selectIds).then(() => {
                     this.loading = false;
                 })

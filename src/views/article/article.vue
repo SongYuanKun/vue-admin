@@ -80,14 +80,14 @@
                     align="center"
                     label="微信">
                 <template slot-scope="scope">
-                    <el-tooltip class="item" effect="dark" content="发送到微信" v-if="scope.row.mediaId==null"
+                    <el-tooltip class="item" effect="dark" content="发送到微信" v-if="scope.row.mediaId===''"
                                 placement="top">
                         <el-button type="info" size="mini" @click="send2WeChat(scope.row.id)">未发送</el-button>
                     </el-tooltip>
                     <el-tooltip class="item" effect="dark" content="发送到微信" v-if="scope.row.mediaId!=null"
                                 placement="top">
                         <el-button type="success" size="mini"
-                                   v-if="scope.row.publish === true">已发送
+                                   v-if="scope.row.mediaId!==''">已发送
                         </el-button>
                     </el-tooltip>
                 </template>

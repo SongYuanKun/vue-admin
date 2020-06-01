@@ -96,6 +96,7 @@
 
 <script>
     import MavonEditor from 'mavon-editor'
+    import MarkdownItEmoji from 'markdown-it-emoji'
     import 'mavon-editor/dist/css/index.css'
     import {fileUpload, getBase,} from "../../api/api";
     import {getArticleInfo, saveOrUpdateArticle} from "../../api/articleApi";
@@ -104,9 +105,15 @@
     import {treeDataTranslate} from "../../util/myUtil";
     import {selectTag} from "../../api/tagApi";
 
+    var md = require('markdown-it')();
+    var emoji = require('markdown-it-emoji');
+
+    md.use(emoji);
+
     export default {
         components: {
-            'mavon-editor': MavonEditor.mavonEditor
+            'mavon-editor': MavonEditor.mavonEditor,
+            MarkdownItEmoji
         },
         data() {
             return {
@@ -151,6 +158,7 @@
             }
         },
         created() {
+
             this.init()
         },
         methods: {

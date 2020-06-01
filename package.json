@@ -35,15 +35,17 @@
     "echarts": "^4.2.1",
     "element-ui": "^2.11.0",
     "font-awesome": "^4.7.0",
+    "lodash": "latest",
+    "markdown-it": "^11.0.0",
+    "markdown-it-emoji": "^1.4.0",
+    "marked": "^0.5.2",
+    "mavon-editor": "^2.3.1",
     "moment": "^2.24.0",
     "nprogress": "^0.2.0",
     "uglify-js": "^3.6.0",
     "vue": "^2.2.2",
     "vue-router": "^3.0.7",
-    "vuex": "^3.1.1",
-    "mavon-editor": "^2.3.1",
-    "marked": "^0.5.2",
-    "lodash": "latest"
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
