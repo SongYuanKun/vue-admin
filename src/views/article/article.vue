@@ -74,6 +74,24 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
+            <el-table-column
+                    prop="recommend"
+                    header-align="center"
+                    align="center"
+                    label="微信">
+                <template slot-scope="scope">
+                    <el-tooltip class="item" effect="dark" content="发送到微信" v-if="scope.row.mediaId==null"
+                                placement="top">
+                        <el-button type="info" size="mini" @click="send2WeChat(scope.row.id)">未发送</el-button>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="发送到微信" v-if="scope.row.mediaId!=null"
+                                placement="top">
+                        <el-button type="success" size="mini"
+                                   v-if="scope.row.publish === true">已发送
+                        </el-button>
+                    </el-tooltip>
+                </template>
+            </el-table-column>
             <el-table-column fixed="right" label="操作">
                 <template slot-scope="scope">
                     <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
@@ -90,7 +108,7 @@
     </section>
 </template>
 <script>
-    import {deleteById, getArticleList, updateStatus} from '../../api/articleApi';
+    import {deleteById, getArticleList, send2WeChat, updateStatus} from '../../api/articleApi';
 
     export default {
         data() {
@@ -171,6 +189,16 @@
                     publish: value
                 };
                 this.updateStatus(data)
+            },
+            // 推送到微信
+            send2WeChat(id) {
+                send2WeChat(id).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.getDataList();
+                    } else {
+                        alert(data.message);
+                    }
+                })
             },
             // 更新文章
             updateStatus(data) {
