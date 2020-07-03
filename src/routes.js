@@ -11,6 +11,7 @@ import Category from './views/category/category.vue'
 import MyTag from "./views/tag/my-tag.vue";
 import Recommend from "./views/recommend/recommend.vue";
 import Article2WeChat from "./views/article/Article2WeChat";
+import Test from "./views/Test";
 
 let routes = [
     {
@@ -22,6 +23,12 @@ let routes = [
     {
         path: '/404',
         component: NotFound,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/test',
+        component: Test,
         name: '',
         hidden: true
     },
