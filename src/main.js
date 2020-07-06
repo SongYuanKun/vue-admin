@@ -17,8 +17,6 @@ Vue.prototype.$confirm = MessageBox.confirm;
 
 //NProgress.configure({ showSpinner: false });
 
-sessionStorage.setItem("env", "bai");
-
 const router = new VueRouter({
     routes
 });

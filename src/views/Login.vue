@@ -71,7 +71,6 @@
                         loginParams.append('password', this.ruleForm2.checkPass);
                         loginParams.append('uuid', this.ruleForm2.uuid);
                         loginParams.append('captcha', this.ruleForm2.captcha);
-                        loginParams.append('env', sessionStorage.getItem("env"));
 
                         requestLogin(loginParams).then(result => {
                             this.login = false;
